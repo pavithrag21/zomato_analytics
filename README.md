@@ -38,7 +38,7 @@ Open your browser and go to:
 
   - http://127.0.0.1:5000/
 
-Future Enhancements
+##Future Enhancements
 
   -Add database (SQLite/MySQL) for storing orders.
 
