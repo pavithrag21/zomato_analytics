@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zomato-like App</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fafafa;
+      color: #333;
+    }
+
+    header {
+      background: linear-gradient(135deg, #e54b4b, #ff7676);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 36px;
+      letter-spacing: 1px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+.dish-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* flexible rows */
+  gap: 30px; /* more space between cards */
+  padding: 20px; /* space around the whole grid */
+}
+
+.dish-item {
+  background-color: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-align: center;
+  padding: 20px; /* extra inside space */
+}
+
+.dish-item:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+}
+
+.dish-item img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.dish-item h3 {
+  margin: 15px 0 12px;
+  font-size: 22px;
+  color: #444;
+}
+
+.dish-item button {
+  background: linear-gradient(135deg, #e54b4b, #ff7676);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  margin: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.dish-item button:hover {
+  background: linear-gradient(135deg, #d64545, #ff5e5e);
+  transform: scale(1.05);
+}
+
+    .cart {
+      margin-top: 40px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .cart h3 {
+      margin-bottom: 15px;
+    }
+
+    .cart-item {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .cart-item:last-child {
+      border-bottom: none;
+    }
+
+    .total {
+      font-weight: bold;
+      margin-top: 15px;
+      font-size: 18px;
+    }
+
+    .button {
+      background: linear-gradient(135deg, #e54b4b, #ff7676);
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 15px;
+      transition: background 0.2s ease;
+    }
+
+    .button:hover {
+      background: linear-gradient(135deg, #d64545, #ff5e5e);
+    }
+
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 12px;
+      margin-top: 40px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🍴 Zomato-like Food Ordering</h1>
+  </header>
+
+  <div class="container">
+    <h2>✨ Order Your Favorite Dishes</h2>
+
+    <!-- List of dishes -->
+    <div class="dish-list">
+      <div class="dish-item">
+        <img src="{{ url_for('static', filename='images/biriyani.jfif') }}" alt="Biriyani">
+        <h3>Biriyani - ₹150</h3>
+        <button class="add-to-cart" data-item="Biriyani" data-price="150">Add to Cart</button>
+        <button class="remove-from-cart" data-item="Biriyani"> Remove</button>
+      </div>
+      <div class="dish-item">
+        <img src="{{ url_for('static', filename='images/paneer.jfif') }}" alt="Paneer">
+        <h3>Paneer - ₹100</h3>
+        <button class="add-to-cart" data-item="Paneer" data-price="100">Add to Cart</button>
+        <button class="remove-from-cart" data-item="Paneer"> Remove</button>
+      </div>
+      <div class="dish-item">
+        <img src="{{ url_for('static', filename='images/butter_chicken.jfif') }}" alt="Butter Chicken">
+        <h3>Butter Chicken - ₹200</h3>
+        <button class="add-to-cart" data-item="Butter Chicken" data-price="200">Add to Cart</button>
+        <button class="remove-from-cart" data-item="Butter Chicken"> Remove</button>
+      </div>
+      <div class="dish-item">
+        <img src="{{ url_for('static', filename='images/vegmeals.jfif') }}" alt="Butter Chicken">
+        <h3>veg meals - ₹200</h3>
+        <button class="add-to-cart" data-item="veg meals" data-price="200">Add to Cart</button>
+        <button class="remove-from-cart" data-item="veg meals"> Remove</button>
+      </div>
+      <div class="dish-item">
+        <img src="{{ url_for('static', filename='images/friedrice.jfif') }}" alt="Butter Chicken">
+        <h3>Fried Rice - ₹150</h3>
+        <button class="add-to-cart" data-item="fried rice" data-price="150">Add to Cart</button>
+        <button class="remove-from-cart" data-item="fried rice"> Remove</button>
+      </div>
+      <div class="dish-item">
+        <img src="{{ url_for('static', filename='images/parrota.jfif') }}" alt="Butter Chicken">
+        <h3>parotta gravy-₹100</h3>
+        <button class="add-to-cart" data-item="parrota gravy" data-price="100">Add to Cart</button>
+        <button class="remove-from-cart" data-item="parrota gravy"> Remove</button>
+      </div>
+    </div>
+    
+
+    <!-- Cart Section -->
+    <div class="cart">
+      <h3>🛒 Your Cart</h3>
+      <ul id="cart-list">
+        <!-- Cart items will be dynamically added here -->
+      </ul>
+      <p class="total" id="total-amount">Total: ₹0</p>
+      <label for="address">📍 Delivery Address:</label><br>
+      <input type="text" id="address" placeholder="Enter your address" required><br>
+      <button onclick="placeOrder()" class="button">✅ Place Order</button>
+    </div>
+  </div>
+
+  <footer>
+    <p>Made with ❤️ for Food Lovers | Zomato-like App</p>
+  </footer>
+
+  <script>
+    let cart = [];
+
+    // Add item to cart
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+      button.addEventListener('click', function () {
+        const itemName = this.getAttribute('data-item');
+        const itemPrice = parseFloat(this.getAttribute('data-price'));
+
+        // Check if item is already in cart
+        const existingItem = cart.find(item => item.name === itemName);
+        if (existingItem) {
+          existingItem.quantity += 1;
+        } else {
+          cart.push({ name: itemName, price: itemPrice, quantity: 1 });
+        }
+
+        updateCart();
+      });
+    });
+
+    // Remove item from cart
+document.querySelectorAll('.remove-from-cart').forEach(button => {
+  button.addEventListener('click', function () {
+    const itemName = this.getAttribute('data-item');
+    const existingItem = cart.find(item => item.name === itemName);
+
+    if (existingItem) {
+      existingItem.quantity -= 1;
+      if (existingItem.quantity <= 0) {
+        cart = cart.filter(item => item.name !== itemName); // remove completely
+      }
+      updateCart();
+    }
+  });
+});
+
+    // Update the cart UI
+    function updateCart() {
+      const cartList = document.getElementById('cart-list');
+      const totalAmount = document.getElementById('total-amount');
+      cartList.innerHTML = '';
+      let total = 0;
+
+      cart.forEach(item => {
+        const cartItem = document.createElement('li');
+        cartItem.classList.add('cart-item');
+        cartItem.textContent = `${item.name} x${item.quantity} - ₹${item.price * item.quantity}`;
+        cartList.appendChild(cartItem);
+
+        total += item.price * item.quantity;
+      });
+
+      totalAmount.textContent = `Total: ₹${total}`;
+    }
+
+    // Place the order
+    function placeOrder() {
+      const address = document.getElementById('address').value;
+      if (cart.length === 0) {
+        alert('Please add items to your cart.');
+        return;
+      }
+      if (!address) {
+        alert('Please enter your delivery address.');
+        return;
+      }
+
+      const orderDetails = {
+        cart: cart,
+        address: address
+      };
+      console.log('Order placed:', orderDetails);
+
+      fetch('http://127.0.0.1:5000/place_order', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderDetails)
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.message) {
+          alert('✅ Order placed successfully!');
+          cart = [];
+          updateCart();
+          document.getElementById('address').value = '';
+        } else {
+          alert('Error: ' + data.error);
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Something went wrong!');
+      });
+    }
+  </script>
+</body>
+</html>
